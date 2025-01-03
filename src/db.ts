@@ -5,14 +5,22 @@ export interface Product {
     description: string;
 }
 
+export interface Order {
+    id: string;
+    productId: string;
+    client: string;
+    address: string;
+}
+
 type DBData = {
     products: Product[];
+    orders: Order[];
 };
 
 export const db: DBData = {
     products: [
         {
-            id: '1a2b3c4d-5e6f-7g8h-9i0j-1k2l3m4n5o6p',
+            id: '123e4567-e89b-12d3-a456-426614174000',
             name: 'ThinkPad T420',
             price: 300,
             description: 'Durable and reliable business laptop with a classic keyboard',
@@ -112,6 +120,27 @@ export const db: DBData = {
             name: 'ThinkPad W701ds',
             price: 400,
             description: 'High-performance workstation with dual screens',
-        }
+        },
     ],
+    orders: [
+            {
+              id: '7q8r9s0t-1u2v-3w4x-5y6z-7a8b9c0d1e2f',
+              productId: 'c5ec02c0-60c0-4a67-9614-6e64e8f7d343',
+              client: 'John Doe',
+              address: '1234 Main St, New York, NY 10001',
+            },
+            {
+              id: '6p7q8r9s-0t1u-2v3w-4x5y-6z7a8b9c0d1e',
+              productId: 'c5ec02c0-60c0-4a67-9614-6e64e8f7d343',
+              client: 'Jane Doe',
+              address: '23 Baker Street, New York, NY 10001',
+            },
+            {
+              id: '5o6p7q8r-9s0t-1u2v-3w4x-5y6z7a8b9c0d',
+              productId: 'c5ec02c0-60c0-4a67-9614-6e64e8f7d343',
+              client: 'Al Swearengen',
+              address: '12 Main St, Deadwood, DA 12002',
+            },
+        ]
+    
 };
