@@ -1,7 +1,7 @@
 import { Transform } from "class-transformer";
 import { Length, IsInt, IsString, IsNotEmpty, Min } from "class-validator";
 
-export class CreateProductDTO  {
+export class UpdateProductDTO  {
     @IsNotEmpty()
     @IsString()
     @Length(10, 20)
