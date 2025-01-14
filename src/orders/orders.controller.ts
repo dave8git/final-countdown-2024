@@ -1,43 +1,29 @@
-import { Controller, Get, Delete, Param, Body, Post, Put, ParseUUIDPipe, NotFoundException } from '@nestjs/common';
+import { Controller, Get, UseGuards, Req, Param, Post } from '@nestjs/common';
 import { OrdersService } from './orders.service';
-import { CreateOrderDTO } from './dtos/create-order.dto';
-import { UpdateOrderDTO } from './dtos/update-product.dto';
+import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
+
 
 @Controller('orders')
 export class OrdersController {
-    constructor(private ordersService: OrdersService) {}
+    constructor(private readonly ordersService: OrdersService) {}
 
-    @Get('/') 
-    getAll(): any {
-        return this.ordersService.getAll();
+    @Get('/')
+    @UseGuards(JwtAuthGuard)
+    getAllByUserId(@Req() req) {
+    const userId = req.user.id;
+    return this.ordersService.getAllByUserId(userId);
     }
 
     @Get('/:id')
+    @UseGuards(JwtAuthGuard)
     getById(@Param('id') id: string) {
-        return this.ordersService.getById(id);
-    }
-
-    @Delete('/:id')
-    public deleteById(@Param('id', new ParseUUIDPipe()) id: string) {
-        if (!this.ordersService.getById(id))
-            throw new NotFoundException('Product not found');
-        this.ordersService.deleteById(id);
-        return { success: true };
+      return this.ordersService.getById(id);
     }
 
     @Post('/')
-    public create(@Body() orderData: CreateOrderDTO) {
-        return this.ordersService.create(orderData);
-    }
-
-    @Put('/:id') 
-    update(
-        @Param('id', new ParseUUIDPipe()) id: string,
-        @Body() orderData: UpdateOrderDTO,
-    ) {
-        if(!this.ordersService.getById(id))
-            throw new Error('Product not found');
-        this.ordersService.updateById(id, orderData);
-        return { success: true }
+    @UseGuards(JwtAuthGuard)
+    async createOrder(@Req() req) {
+      const userId = req.user.id;
+      return this.ordersService.createOrderFromCart(userId);
     }
 }

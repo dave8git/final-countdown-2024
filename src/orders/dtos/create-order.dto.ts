@@ -1,18 +1,39 @@
-import { Transform } from "class-transformer";
-import { Length, IsString, IsNotEmpty } from "class-validator";
+import { IsNotEmpty, IsOptional, IsString, IsNumberString, Length, IsEmail } from 'class-validator';
+import { Transform } from 'class-transformer';
+import { Decimal } from 'decimal.js';
 
 export class CreateOrderDTO {
     @IsNotEmpty()
+    @IsNumberString() // Ensures input is numeric
+    @Transform(({ value }) => new Decimal(value)) // Convert input to Decimal
+    totalPrice: Decimal;
+
+    @IsOptional()
     @IsString()
-    productId: string;
+    comment?: string;
 
     @IsNotEmpty()
     @IsString()
     @Length(5, 35)
-    client: string;
+    customer: string;
+
+    @IsNotEmpty()
+    @IsEmail()
+    email: string;
 
     @IsNotEmpty()
     @IsString()
-    @Transform(({ value }) => (Array.isArray(value) ? value.join(', ') : ''))
+    @Transform(({ value }) => (Array.isArray(value) ? value.join(', ') : value))
     address: string;
+
+    @IsNotEmpty()
+    @IsString()
+    userId: string;
+
+    @IsOptional()
+    @Transform(({ value }) => new Date(value))
+    date?: Date;
+
+    @IsOptional()
+    updatedAt?: Date;
 }

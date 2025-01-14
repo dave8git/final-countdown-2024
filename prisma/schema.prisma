@@ -22,7 +22,7 @@ model Product {
   storage Int
   screen Int
   image String
-  description String
+  description String 
 
   orderProducts  OrderItem[]
   cartProducts   CartItem[]

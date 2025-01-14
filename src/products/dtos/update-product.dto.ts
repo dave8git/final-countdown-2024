@@ -12,8 +12,17 @@ export class UpdateProductDTO  {
     @Min(0)
     price: number;
     
+    cpu: string;
+
+    ram: number;
+
+    storage: number;
+
+    screen: number; 
+
+    image: string; 
+    
     @IsString()
     @IsNotEmpty()
-    @Transform(({ value}) => (Array.isArray(value) ? value.join(', ') : ''))
     description: string;
   };

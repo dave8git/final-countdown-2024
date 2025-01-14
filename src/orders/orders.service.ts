@@ -1,29 +1,76 @@
-import { Injectable } from '@nestjs/common';
-import { db, Order } from '../db';
-import { v4 as uuidv4 } from 'uuid';
+import { Injectable, NotFoundException } from '@nestjs/common';
+import { PrismaService } from 'src/prisma/prisma.service';
+import { CartService } from 'src/cart/cart.service';
+import {  Order, } from '@prisma/client';
 
 @Injectable()
-export class OrdersService {    
-    public getAll(): Order[] {
-        return db.orders; 
+export class OrdersService {
+    constructor(
+        private prismaService: PrismaService,
+        private cartService: CartService,
+        ) {}
+
+    async getAllByUserId(userId: string): Promise<Order[]> {
+        return this.prismaService.order.findMany({
+          where: {
+            userId: userId,
+          },
+          include: {
+            orderItems: true,
+          },
+        });
     }
-    public getById(id: Order['id']): Order | null {
-        return db.orders.find((order) => order.id === id);
+
+    async getById(id: string): Promise<Order | null> {
+        return this.prismaService.order.findUnique({
+          where: { id },
+          include: {
+            orderItems: true
+          }
+        });
     }
-    public deleteById(id: Order['id']): void {
-        db.orders = db.orders.filter((order) => order.id !== id);
-    }
-    public create(orderData: Omit<Order, 'id'>): Order {
-        const newOrder = { ...orderData, id: uuidv4() }; 
-        db.orders.push(newOrder);
-        return newOrder; 
-    }
-    public updateById(id: Order['id'], orderData: Omit<Order, 'id'>): void {
-        db.orders = db.orders.map((order) => {
-            if (order.id === id) {
-                return { ...order, ...orderData }
-            }
-            return order;
-        })
+
+    async createOrderFromCart(userId: string) {
+       
+        const userCart = await this.cartService.getCartByUser(userId);
+    
+        
+        if (!userCart) {
+          throw new Error('User cart not found');
+        }
+    
+        
+        const newOrder = await this.prismaService.order.create({
+          data: {
+            userId: userId,
+            orderItems: {
+              createMany: {
+                data: await Promise.all(
+                  userCart.cartItems.map(async (cartItem) => {
+                    
+                    const product = await this.prismaService.product.findUnique({
+                      where: { id: cartItem.productId },
+                    });
+    
+                    if (!product) {
+                      throw new Error(`Product with ID ${cartItem.productId} not found`);
+                    }
+    
+                    return {
+                      quantity: cartItem.quantity,
+                      price: product.price,
+                      productId: cartItem.productId,
+                    };
+                  })
+                ),
+              },
+            },
+          } as any,
+        });
+    
+        
+        await this.cartService.clearCart(userId);
+    
+        return newOrder;
     }
 }
