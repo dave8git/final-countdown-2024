@@ -16,9 +16,10 @@ import { ServeStaticModule } from '@nestjs/serve-static';
 import { join } from 'path';
 
 @Module({
-  imports: [ServeStaticModule.forRoot({
-    rootPath: join(__dirname, '..', '..', 'client', 'build'),
-  }), ProductsModule, OrdersModule,  ConfigModule.forRoot({ load: [configuration], isGlobal: true }), AuthModule], //imports: [ProductsModule, OrdersModule],
+   imports: [//ServeStaticModule.forRoot({
+  //   rootPath: join(__dirname, '..', '..', 'client', 'build'),
+  // }), 
+  ProductsModule, OrdersModule,  ConfigModule.forRoot({ load: [configuration], isGlobal: true }), AuthModule], //imports: [ProductsModule, OrdersModule],
   controllers: [AppController],
   providers: [AppService],
 })

@@ -15,7 +15,7 @@ const START_REQUEST = createActionName('START_REQUEST');
 const END_REQUEST = createActionName('END_REQUEST');
 const ERROR_REQUEST = createActionName('ERROR_REQUEST');
 const DELETE_POST = createActionName('DELETE_POST');
-const LOAD_POSTS = createActionName('LOAD_POSTS');
+const LOAD_PRODUCTS = createActionName('LOAD_PRODUCTS');
 const ADD_POST = createActionName('ADD_POST');
 const UPDATE_POST = createActionName('UPDATE_POST');
 const SEARCH_POSTS = createActionName('SEARCH_POSTS');
@@ -27,7 +27,7 @@ export const startRequest = payload => ({ payload, type: START_REQUEST });
 export const endRequest = payload => ({ payload, type: END_REQUEST });
 export const errorRequest = payload => ({ payload, type: ERROR_REQUEST });
 export const deletePost = payload => ({ payload, type: DELETE_POST });
-export const loadPosts = payload => ({ payload, type: LOAD_POSTS });
+export const loadProducts = payload => ({ payload, type: LOAD_PRODUCTS });
 export const updatePost = payload => ({ payload, type: UPDATE_POST });
 export const addPost = payload => ({ payload, type: ADD_POST });
 export const searchPosts = payload => ({ payload, type: SEARCH_POSTS });
@@ -41,8 +41,7 @@ export const getUserRequest = () => {
         dispatch(startRequest({ name: 'GET_USER' }));
         try {
             const response = await axios.get(`${API_URL}/auth/user`);
-            console.log('getUser: response.data', response);
-            dispatch(getUser(response.data )); // Dispatch registration success
+            dispatch(getUser(response.data ));
             dispatch(endRequest({ name: 'GET_USER' }));
         } catch (error) {
             dispatch(errorRequest({ name: 'GET_USER', error: error.response?.data?.message || 'An error occurred' }));
@@ -56,7 +55,7 @@ export const loginUserRequest = (formData) => {
         try {
             const response = await axios.post(`${API_URL}/auth/login`, formData);
             console.log('response.data', response.data, formData);
-            dispatch(loginUser({message: response.data.message, user: formData.login })); // Dispatch registration success
+            dispatch(loginUser({message: response.data.message, user: formData.login }));
             dispatch(endRequest({ name: 'LOGIN_USER' }));
         } catch (error) {
             dispatch(errorRequest({ name: 'LOGIN_USER', error: error.response?.data?.message || 'An error occurred' }));
@@ -89,17 +88,30 @@ export const logoutRequest = () => {
     };
 };
 
-export const loadPostsRequest = () => {
+export const loadProductsRequest = () => {
     return async dispatch => {
 
-        dispatch(startRequest({ name: 'LOAD_POSTS' }));
+        dispatch(startRequest({ name: 'LOAD_PRODUCTS' }));
         try {
             let res = await axios.get(`${API_URL}/products`);
             await new Promise((resolve) => setTimeout(resolve, 1000));
-            dispatch(loadPosts(res.data));
-            dispatch(endRequest({ name: 'LOAD_POSTS' }));
+            dispatch(loadProducts(res.data));
+            dispatch(endRequest({ name: 'LOAD_PRODUCTS' }));
         } catch (e) {
-            dispatch(errorRequest({ name: 'LOAD_POSTS', error: e.message }));
+            dispatch(errorRequest({ name: 'LOAD_PRODUCTS', error: e.message }));
+        }
+    };
+};
+
+export const loadPostByIdRequest = (id) => {
+    return async (dispatch) => {
+        dispatch(startRequest({ name: 'LOAD_POST' }));
+        try {
+            const response = await axios.get(`${API_URL}/products/${id}`);
+            dispatch(loadProducts([response.data])); // Ensuring it updates correctly
+            dispatch(endRequest({ name: 'LOAD_POST' }));
+        } catch (error) {
+            dispatch(errorRequest({ name: 'LOAD_POST', error: error.message }));
         }
     };
 };
@@ -107,7 +119,7 @@ export const loadPostsRequest = () => {
 export const loadLocalPosts = () => {
     return async dispatch => {
         let res = await axios.get(`${API_URL}/posts`);
-        dispatch(loadPosts(res.data));
+        dispatch(loadProducts(res.data));
     }
 }
 // dokończyć dalej wzorując się na pliku: // sources: https://github.com/dave8git/testimonials-node-2024/blob/master/client/src/redux/seatsRedux.js
@@ -137,7 +149,7 @@ export const addPostRequest = (post) => {
             await new Promise((resolve) => setTimeout(resolve, 1000));
             dispatch(addPost(res));
             dispatch(endRequest({ name: 'ADD_POST' }));
-            dispatch(loadPostsRequest());
+            dispatch(loadProductsRequest());
         } catch (error) {
             console.log('error', error);
             dispatch(errorRequest({ name: 'ADD_POST', error: error.response?.data?.message || 'An error occured' }));
@@ -180,7 +192,7 @@ export const updatePostRequest = (id, updatedData) => {
         dispatch(startRequest({ name: 'UPDATE_POST' }));
 
         try {
-            const response = await axios.put(`${API_URL}/posts/${id}`, dataToSend);
+            const response = await axios.put(`${API_URL}/products/${id}`, dataToSend);
             dispatch(updatePost(response.data)); // Dispatch the updated post data to the reducer
             dispatch(endRequest({ name: 'UPDATE_POST' }));
         } catch (error) {
@@ -194,7 +206,7 @@ export const searchPostsRequest = (searchPhrase) => {
         dispatch(startRequest({ name: 'SEARCH_POSTS' }));
         try {
             const res = await axios.get(`${API_URL}/posts/search?q=${encodeURIComponent(searchPhrase)}`);
-            dispatch(loadPosts(res.data)); // Use existing `loadPosts` action to update state
+            dispatch(loadProducts(res.data));
             dispatch(endRequest({ name: 'SEARCH_POSTS' }));
         } catch (error) {
             dispatch(errorRequest({ name: 'SEARCH_POSTS', error: error.message }));
@@ -213,7 +225,7 @@ const initialState = {
 
 export default function reducer(statePart = initialState, action = {}) {
     switch (action.type) {
-        case LOAD_POSTS:
+        case LOAD_PRODUCTS:
             console.log('!', action.payload);
             return { ...statePart, data: [...action.payload] };
         case ADD_POST:

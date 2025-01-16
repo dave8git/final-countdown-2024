@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { Link, useParams, useNavigate } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
-import { deletePostRequest, getPostsById, loadPostsRequest, getLoggedUser } from '../../redux/postsReducer';
+import { deletePostRequest, getPostsById, loadProductsRequest, getLoggedUser } from '../../redux/postsReducer';
 import { Container, Row, Col, Card, Button, Spinner } from 'react-bootstrap';
 
 function FullPost() {
@@ -15,7 +15,7 @@ function FullPost() {
 
   useEffect(() => {
     if (!post) {
-      dispatch(loadPostsRequest(id));
+      dispatch(loadProductsRequest(id));
     }
   }, [dispatch, id, post]);
 

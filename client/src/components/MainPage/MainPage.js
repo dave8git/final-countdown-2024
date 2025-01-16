@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { loadPostsRequest, searchPostsRequest, getPosts, getUserRequest, logoutRequest } from '../../redux/postsReducer';
+import { loadProductsRequest, searchPostsRequest, getPosts, getUserRequest, logoutRequest } from '../../redux/postsReducer';
 import { Link, useNavigate } from 'react-router-dom';
 import { Button, Form } from 'react-bootstrap';
 import MiniPost from '../MiniPost/MiniPost';
@@ -12,7 +12,7 @@ function MainPage() {
   const [searchQuery, setSearchQuery] = useState('');
 
   useEffect(() => {
-    dispatch(loadPostsRequest());
+    dispatch(loadProductsRequest());
   }, [dispatch]);
 
   useEffect(() => {
@@ -26,7 +26,7 @@ function MainPage() {
     if (searchQuery) {
       dispatch(searchPostsRequest(searchQuery));
     } else {
-      dispatch(loadPostsRequest()); // Reset to all posts if search is cleared
+      dispatch(loadProductsRequest()); // Reset to all posts if search is cleared
     }
   };
 
@@ -55,8 +55,6 @@ function MainPage() {
                 Login
               </Button>
             </Link>)
-
-
           }
         </div>
       </div>
