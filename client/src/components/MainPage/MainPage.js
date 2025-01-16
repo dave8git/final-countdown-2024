@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { loadProductsRequest, searchPostsRequest, getPosts, getUserRequest, logoutRequest } from '../../redux/postsReducer';
 import { Link, useNavigate } from 'react-router-dom';
 import { Button, Form } from 'react-bootstrap';
-import MiniPost from '../MiniPost/MiniPost';
+import MiniPost from '../MiniProduct/MiniProduct';
 
 function MainPage() {
   const dispatch = useDispatch();
