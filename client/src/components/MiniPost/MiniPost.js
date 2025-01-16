@@ -70,7 +70,7 @@ function MiniPost({ post }) {
         </ListGroup>
 
         <div className="d-flex justify-content-between mt-3">
-          <Link to={`/post/${post.id}`}>
+          <Link to={`/products/${post.id}`}>
             <Button variant="primary">Read More</Button>
           </Link>
           <Link to={`/edit/${post.id}`}>

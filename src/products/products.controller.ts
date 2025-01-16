@@ -25,4 +25,6 @@ export class ProductsController {
   create(@Body() productData: CreateProductDTO) {
     return this.productsService.create(productData);
   }
+
+  
 }

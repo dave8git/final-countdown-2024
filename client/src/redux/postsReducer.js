@@ -4,7 +4,8 @@ import axios from 'axios';
 const API_URL = 'http://localhost:8000/api';
 /* SELECTORS */
 export const getPosts = ({ posts }) => posts.data;
-export const getPostsById = ({ posts }, id) => posts.data.find(post => post._id === id);
+//export const getPostsById = ({ posts }, id) => posts.data.find(post => post._id === id);
+export const getPostsById = ({ posts }, id) => posts.data.find(post => post.id === id);
 export const getLoggedUser = ({ posts }) => posts.user;
 /* ACTIONS */
 // action name creator
@@ -33,7 +34,7 @@ export const addPost = payload => ({ payload, type: ADD_POST });
 export const searchPosts = payload => ({ payload, type: SEARCH_POSTS });
 export const registerUser = (payload) => ({ payload, type: REGISTER_USER });
 export const loginUser = (payload) => ({ payload, type: LOGIN_USER });
-export const getUser = (payload) => ({payload, type: GET_USER });
+export const getUser = (payload) => ({ payload, type: GET_USER });
 
 /* THUNKS */
 export const getUserRequest = () => {
@@ -41,7 +42,7 @@ export const getUserRequest = () => {
         dispatch(startRequest({ name: 'GET_USER' }));
         try {
             const response = await axios.get(`${API_URL}/auth/user`);
-            dispatch(getUser(response.data ));
+            dispatch(getUser(response.data));
             dispatch(endRequest({ name: 'GET_USER' }));
         } catch (error) {
             dispatch(errorRequest({ name: 'GET_USER', error: error.response?.data?.message || 'An error occurred' }));
@@ -55,7 +56,7 @@ export const loginUserRequest = (formData) => {
         try {
             const response = await axios.post(`${API_URL}/auth/login`, formData);
             console.log('response.data', response.data, formData);
-            dispatch(loginUser({message: response.data.message, user: formData.login }));
+            dispatch(loginUser({ message: response.data.message, user: formData.login }));
             dispatch(endRequest({ name: 'LOGIN_USER' }));
         } catch (error) {
             dispatch(errorRequest({ name: 'LOGIN_USER', error: error.response?.data?.message || 'An error occurred' }));
@@ -104,14 +105,16 @@ export const loadProductsRequest = () => {
 };
 
 export const loadPostByIdRequest = (id) => {
+    console.log('loadPostByIdRequest');
     return async (dispatch) => {
-        dispatch(startRequest({ name: 'LOAD_POST' }));
+        dispatch(startRequest({ name: 'LOAD_PRODUCTS' }));
         try {
             const response = await axios.get(`${API_URL}/products/${id}`);
-            dispatch(loadProducts([response.data])); // Ensuring it updates correctly
-            dispatch(endRequest({ name: 'LOAD_POST' }));
+            console.log('response', response);
+            dispatch(loadProducts([response.data]));
+            dispatch(endRequest({ name: 'LOAD_PRODUCTS' }));
         } catch (error) {
-            dispatch(errorRequest({ name: 'LOAD_POST', error: error.message }));
+            dispatch(errorRequest({ name: 'LOAD_PRODUCTS', error: error.message }));
         }
     };
 };
@@ -126,7 +129,7 @@ export const loadLocalPosts = () => {
 
 export const addPostRequest = (post) => {
     console.log('addPostRequest works');
-    return async (dispatch, getState)=> {
+    return async (dispatch, getState) => {
         dispatch(startRequest({ name: 'ADD_POST' }));
         try {
             const state = getState();
@@ -228,6 +231,13 @@ export default function reducer(statePart = initialState, action = {}) {
         case LOAD_PRODUCTS:
             console.log('!', action.payload);
             return { ...statePart, data: [...action.payload] };
+        // case LOAD_PRODUCTS:
+        //     const newPosts = action.payload;
+        //     console.log('newPosts', newPosts);
+        //     return {
+        //         ...statePart,
+        //         data: [...statePart.data.filter(post => !newPosts.some(newPost => newPost.id === post.id)), ...newPosts],
+        //     };
         case ADD_POST:
             console.log('Adding post to state:', action.payload);
             return { ...statePart, data: [...statePart.data, action.payload] };
@@ -251,7 +261,7 @@ export default function reducer(statePart = initialState, action = {}) {
         case REGISTER_USER:
             return { ...statePart, message: action.payload.message };
         case LOGIN_USER:
-            return { ...statePart, message: action.payload.message,  user: action.payload.user };
+            return { ...statePart, message: action.payload.message, user: action.payload.user };
         case GET_USER:
             return { ...statePart, user: action.payload };
         default:

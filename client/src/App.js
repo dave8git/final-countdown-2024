@@ -14,7 +14,7 @@ function App() {
       <div className="container">
         <Routes>
           <Route path="/" element={<MainPage />} />
-          <Route path="/post/:id" element={<FullPost />} />
+          <Route path="/products/:id" element={<FullPost />} />
           <Route path="/add-post" element={<PostForm />} />
           <Route path="/edit-post/:id" element={<PostForm />} />
           <Route path="/register" element={<Register />} />
