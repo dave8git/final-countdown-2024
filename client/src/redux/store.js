@@ -2,10 +2,12 @@
 import { createStore, combineReducers, applyMiddleware, compose } from 'redux';
 import { thunk } from 'redux-thunk';
 import postsReducer from './postsReducer';
+import cartReducer from './cartReducer';
 
 // Combine reducers
 const rootReducer = combineReducers({
   posts: postsReducer,
+  cart: cartReducer,
 });
 
 // Enable Redux DevTools if available, otherwise use Redux compose

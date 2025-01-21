@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Link, useParams, useNavigate } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
-import { deletePostRequest, getPostsById, loadPostByIdRequest, getLoggedUser } from '../../redux/postsReducer';
+import { getPostsById, loadPostByIdRequest } from '../../redux/postsReducer';
 import { Container, Card, Button, ListGroup, Badge, Spinner } from 'react-bootstrap';
 
 const imageExtensions = ['jpg', 'png', 'gif'];
@@ -11,7 +11,6 @@ function FullPost() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const post = useSelector((state) => getPostsById(state, id));
-  const loggedUser = useSelector((state) => getLoggedUser(state));
   
   const [imageUrl, setImageUrl] = useState('');
 
@@ -42,15 +41,6 @@ function FullPost() {
       }
     };
     img.src = imagePath;
-  };
-
-  const handleDelete = async () => {
-    try {
-      await dispatch(deletePostRequest(id));
-      navigate('/');
-    } catch (error) {
-      alert('Failed to delete the post. Please try again.');
-    }
   };
 
   return post ? (
@@ -86,14 +76,6 @@ function FullPost() {
             <Link to="/">
               <Button variant="info">Main Page</Button>
             </Link>
-            {loggedUser && loggedUser.id === post.author?._id && (
-              <>
-                <Link to={`/edit-post/${post.id}`}>
-                  <Button variant="outline-secondary">Edit</Button>
-                </Link>
-                <Button variant="danger" onClick={handleDelete}>Delete</Button>
-              </>
-            )}
           </div>
         </Card.Body>
       </Card>
