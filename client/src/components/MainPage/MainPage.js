@@ -4,6 +4,8 @@ import { loadProductsRequest, searchPostsRequest, getPosts } from '../../redux/p
 import { Link, useNavigate } from 'react-router-dom';
 import { Button, Form } from 'react-bootstrap';
 import MiniPost from '../MiniProduct/MiniProduct';
+import CartIcon from '../CartIcon/CartIcon';
+import Example from '../Example/Example';
 
 function MainPage() {
   const dispatch = useDispatch();
@@ -32,6 +34,7 @@ function MainPage() {
         <h1>Posts</h1>
         <div>
           {/* TODO cart icon */}
+          <CartIcon />
         </div>
       </div>
       <Form onSubmit={handleSearch} className="mb-4">
