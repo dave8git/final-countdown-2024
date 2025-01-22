@@ -1,18 +1,22 @@
-import React, { useState } from 'react';
-import *  as Icon  from 'react-bootstrap-icons';
+import React from 'react';
+import * as Icon from 'react-bootstrap-icons';
 import { Badge } from 'react-bootstrap';
+import { useSelector } from 'react-redux';
 
 function CartIcon() {
-  // Example state for the number of items in the cart
-  const [itemCount, setItemCount] = useState(5); // Replace with your logic
+  // Access the cart data from Redux
+  const cart = useSelector((state) => state.cart.data);
+
+  // Calculate the total quantity of items in the cart
+  const totalQuantity = cart.reduce((acc, item) => acc + item.quantity, 0);
 
   return (
     <div className="position-relative d-inline-block">
       {/* Cart Icon */}
-      <><Icon.Cart size={24} />  </>{/* This line was commented out in your original code */}
+      <Icon.Cart size={24} />
 
       {/* Badge for the number of items */}
-      {itemCount > 0 && (
+      {totalQuantity > 0 && (
         <Badge
           pill
           bg="danger"
@@ -23,7 +27,7 @@ function CartIcon() {
             fontSize: '0.8rem',
           }}
         >
-          {itemCount}
+          {totalQuantity}
         </Badge>
       )}
     </div>

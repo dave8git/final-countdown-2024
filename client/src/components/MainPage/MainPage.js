@@ -23,7 +23,7 @@ function MainPage() {
     if (searchQuery) {
       dispatch(searchPostsRequest(searchQuery));
     } else {
-      dispatch(loadProductsRequest()); // Reset to all posts if search is cleared
+      dispatch(loadProductsRequest());
     }
   };
 

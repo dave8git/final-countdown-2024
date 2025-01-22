@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom';
 const imageExtensions = ['jpg', 'png', 'gif'];
 
 function MiniPost({ post }) {
-  console.log('post', post);
+  // console.log('post', post);
 
   const [imageUrl, setImageUrl] = useState('');
   

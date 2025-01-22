@@ -47,7 +47,7 @@ function FullPost() {
 
   const handleAddToCart = () => {
     if(post && quantity > 0) {
-      dispatch(addToCart({ id: post.id, name: post.name, price: post.price, quantity}));
+      dispatch(addToCart({ id: post.id, quantity}));
       console.log(`Added ${quantity} of "${post.name}" to the cart.`);
     }
   };
