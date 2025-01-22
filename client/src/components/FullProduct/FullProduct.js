@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { Link, useParams, useNavigate } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
+import { addToCart } from '../../redux/cartReducer';
 import { getPostsById, loadPostByIdRequest } from '../../redux/postsReducer';
-import { Container, Card, Button, ListGroup, Badge, Spinner } from 'react-bootstrap';
+import { Container, Card, Button, ListGroup, Badge, Spinner, Form } from 'react-bootstrap';
 
 const imageExtensions = ['jpg', 'png', 'gif'];
 
@@ -11,8 +12,9 @@ function FullPost() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const post = useSelector((state) => getPostsById(state, id));
-  
+
   const [imageUrl, setImageUrl] = useState('');
+  const [quantity, setQuantity] = useState(1);
 
   useEffect(() => {
     if (!post) {
@@ -29,7 +31,7 @@ function FullPost() {
   const loadImage = (imageName, extIndex = 0) => {
     const extension = imageExtensions[extIndex];
     const imagePath = `http://localhost:8000/public/images/${imageName}.${extension}`;
-    
+
     setImageUrl(imagePath);
 
     const img = new Image();
@@ -41,6 +43,13 @@ function FullPost() {
       }
     };
     img.src = imagePath;
+  };
+
+  const handleAddToCart = () => {
+    if(post && quantity > 0) {
+      dispatch(addToCart({ id: post.id, name: post.name, price: post.price, quantity}));
+      console.log(`Added ${quantity} of "${post.name}" to the cart.`);
+    }
   };
 
   return post ? (
@@ -72,10 +81,24 @@ function FullPost() {
             </ListGroup.Item>
           </ListGroup>
 
-          <div className="d-flex justify-content-between mt-3">
-            <Link to="/">
-              <Button variant="info">Main Page</Button>
-            </Link>
+          <div className="mt-3">
+            <Form.Group className="mb-3" controlId="quantityInput">
+              <Form.Label>Quantity:</Form.Label>
+              <Form.Control
+                type="number"
+                min="1"
+                value={quantity}
+                onChange={(e) => setQuantity(Number(e.target.value))}
+              />
+            </Form.Group>
+            <div className="mt-3 d-flex gap-3">
+              <Button variant="primary" onClick={handleAddToCart}>
+                Add to Cart
+              </Button>
+              <Link to="/">
+                <Button variant="info">Main Page</Button>
+              </Link>
+            </div>
           </div>
         </Card.Body>
       </Card>

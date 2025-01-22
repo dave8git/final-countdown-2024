@@ -5,7 +5,6 @@ import { Link, useNavigate } from 'react-router-dom';
 import { Button, Form } from 'react-bootstrap';
 import MiniPost from '../MiniProduct/MiniProduct';
 import CartIcon from '../CartIcon/CartIcon';
-import Example from '../Example/Example';
 
 function MainPage() {
   const dispatch = useDispatch();
