@@ -41,20 +41,18 @@ function Cart() {
                       {product.name}
                     </Card.Title>
                     <ListGroup variant="flush">
-                      <ListGroup.Item>
-                        <strong>Quantity:</strong> {' '}
+                      <ListGroup.Item className="d-flex align-items-center">
+                        <strong className="me-2">Quantity:</strong>
                         <Form.Control
-                            as="select"
+                            type="number"
+                            min="1"
                             value={cartItem.quantity}
                             onChange={(e) => 
                                 handleQuantityChange(product.id, parseInt(e.target.value, 10))
                             }
+                            style={{ width: '80px' }}
                         >
-                            {[...Array(10).keys()].map((num) => (
-                                <option key={num + 1} value={num + 1}>
-                                    {num + 1}
-                                </option>
-                            ))}
+                            
                         </Form.Control>
                       </ListGroup.Item>
                       <ListGroup.Item>
