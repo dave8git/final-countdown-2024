@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { Card, ListGroup, Badge, Button, Row, Col } from 'react-bootstrap';
-import { getCartItems, fetchCartProducts } from '../../redux/cartReducer';
+import { Card, ListGroup, Badge, Button, Row, Col, Form } from 'react-bootstrap';
+import { getCartItems, fetchCartProducts, updateCartQuantity } from '../../redux/cartReducer';
 
 function Cart() {
   const dispatch = useDispatch();
@@ -11,6 +11,10 @@ function Cart() {
   useEffect(() => {
     dispatch(fetchCartProducts());
   }, [dispatch]);
+
+  const handleQuantityChange = (productId, newQuantity) => {
+    dispatch(updateCartQuantity({ id: productId, quantity: newQuantity }));
+  };
 
   return (
     <div className="container mt-4">
@@ -38,7 +42,20 @@ function Cart() {
                     </Card.Title>
                     <ListGroup variant="flush">
                       <ListGroup.Item>
-                        <strong>Quantity:</strong> {cartItem.quantity}
+                        <strong>Quantity:</strong> {' '}
+                        <Form.Control
+                            as="select"
+                            value={cartItem.quantity}
+                            onChange={(e) => 
+                                handleQuantityChange(product.id, parseInt(e.target.value, 10))
+                            }
+                        >
+                            {[...Array(10).keys()].map((num) => (
+                                <option key={num + 1} value={num + 1}>
+                                    {num + 1}
+                                </option>
+                            ))}
+                        </Form.Control>
                       </ListGroup.Item>
                       <ListGroup.Item>
                         <strong>Price (Each):</strong>{' '}

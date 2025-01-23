@@ -5,6 +5,7 @@ const createActionName = name => `app/${reducerName}/${name}`;
 export const FETCH_CART_PRODUCTS = createActionName('FETCH_CART_PRODUCTS');
 export const FETCH_CART_PRODUCTS_SUCCESS = createActionName('FETCH_CART_PRODUCTS_SUCCESS');
 export const FETCH_CART_PRODUCTS_FAILURE = createActionName('FETCH_CART_PRODUCTS_FAILURE');
+export const UPDATE_CART_QUANTITY = createActionName('UPDATE_CART_QUANTITY');
 // sources: https://github.com/dave8git/testimonials-node-2024/blob/master/client/src/redux/seatsRedux.js
 const API_URL = 'http://localhost:8000/api';
 /* SELECTORS */
@@ -14,7 +15,7 @@ export const getCartItems = (state) => state.cart.data;
 // action name creator
 
 const ADD_TO_CART = createActionName('ADD_TO_CART');
-const UPDATE_CART_QUANTITY = createActionName('UPDATE_CART_QUANTITY');
+//const UPDATE_CART_QUANTITY = createActionName('UPDATE_CART_QUANTITY');
 
 export const addToCart = payload => ({ payload, type: ADD_TO_CART });
 export const updateCartQuantity = (payload) => ({ payload, type: UPDATE_CART_QUANTITY})
@@ -72,6 +73,16 @@ export default function reducer(statePart = initialState, action = {}) {
                     ...statePart, 
                     data: [...statePart.data, action.payload ] 
                 };
+            }
+        }
+        case UPDATE_CART_QUANTITY: {
+            return {
+                ...statePart, 
+                data: statePart.data.map((item) => 
+                    item.id === action.payload.id
+                    ? { ...item, quantity: action.payload.quantity }
+                    : item
+                )
             }
         }
         case FETCH_CART_PRODUCTS_SUCCESS: {
