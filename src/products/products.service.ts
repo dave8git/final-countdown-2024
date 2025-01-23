@@ -15,6 +15,14 @@ export class ProductsService {
         })
     }
 
+    public getManyByIds(ids: Product['id'][]): Promise<Product[]> {
+        return this.prismaService.product.findMany({
+            where: { 
+                id: { in: ids } 
+            },
+        });
+    }
+
     public deleteById(id: Product['id']): Promise<Product> {
         return this.prismaService.product.delete({
             where: { id }

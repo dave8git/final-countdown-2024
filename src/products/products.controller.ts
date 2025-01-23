@@ -6,25 +6,29 @@ import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
 
 @Controller('products')
 export class ProductsController {
-    constructor(private productsService: ProductsService) {}
+    constructor(private productsService: ProductsService) { }
 
-  @Get('/')
-  getAll() {
-    return this.productsService.getAll();
-  }
+    @Get('/')
+    getAll() {
+        return this.productsService.getAll();
+    }
 
-  @Get('/:id')
-  async getById(@Param('id', new ParseUUIDPipe()) id: string) {
-    const product = await this.productsService.getById(id);
-      if (!product) throw new NotFoundException('Product not found');
-    return product;
-  }
+    @Get('/:id')
+    async getById(@Param('id', new ParseUUIDPipe()) id: string) {
+        const product = await this.productsService.getById(id);
+        if (!product) throw new NotFoundException('Product not found');
+        return product;
+    }
 
-  @Post('/')
-  @UseGuards(JwtAuthGuard)
-  create(@Body() productData: CreateProductDTO) {
-    return this.productsService.create(productData);
-  }
+    @Post('/')
+    @UseGuards(JwtAuthGuard)
+    create(@Body() productData: CreateProductDTO) {
+        return this.productsService.create(productData);
+    }
 
-  
+    @Post('/by-ids')
+    async getProductsByIds(@Body() body: { ids: string[] }) {
+        return this.productsService.getManyByIds(body.ids);
+    }
+
 }

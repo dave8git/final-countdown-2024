@@ -1,19 +1,48 @@
 import axios from 'axios';
 
+const reducerName = 'cart';
+const createActionName = name => `app/${reducerName}/${name}`;
+export const FETCH_CART_PRODUCTS = createActionName('FETCH_CART_PRODUCTS');
+export const FETCH_CART_PRODUCTS_SUCCESS = createActionName('FETCH_CART_PRODUCTS_SUCCESS');
+export const FETCH_CART_PRODUCTS_FAILURE = createActionName('FETCH_CART_PRODUCTS_FAILURE');
 // sources: https://github.com/dave8git/testimonials-node-2024/blob/master/client/src/redux/seatsRedux.js
 const API_URL = 'http://localhost:8000/api';
 /* SELECTORS */
+export const getCartItems = (state) => state.cart.data;
 
 /* ACTIONS */
 // action name creator
-const reducerName = 'cart';
-const createActionName = name => `app/${reducerName}/${name}`;
+
 const ADD_TO_CART = createActionName('ADD_TO_CART');
 const UPDATE_CART_QUANTITY = createActionName('UPDATE_CART_QUANTITY');
 
 export const addToCart = payload => ({ payload, type: ADD_TO_CART });
 export const updateCartQuantity = (payload) => ({ payload, type: UPDATE_CART_QUANTITY})
 /* THUNKS */
+
+export const fetchCartProducts = () => async (dispatch, getState) => {
+    const cartItems = getCartItems(getState());
+
+    if(cartItems.length === 0) return;
+
+    dispatch({ type: FETCH_CART_PRODUCTS });
+
+    try {
+        const response = await axios.post(`${API_URL}/products/by-ids`, {
+            ids: cartItems.map(item => item.id)
+        });
+
+        dispatch({
+            type: FETCH_CART_PRODUCTS_SUCCESS,
+            payload: response.data
+        });
+    } catch (error) {
+        dispatch({
+            type: FETCH_CART_PRODUCTS,
+            payload: error.message
+        })
+    }
+}
 
 /* INITIAL STATE */
 const initialState = {
@@ -45,7 +74,12 @@ export default function reducer(statePart = initialState, action = {}) {
                 };
             }
         }
-         
+        case FETCH_CART_PRODUCTS_SUCCESS: {
+            return {
+                ...statePart, 
+                products: action.payload
+            };
+        }
         
         default:
             return statePart;

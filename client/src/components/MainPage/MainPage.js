@@ -15,7 +15,7 @@ function MainPage() {
   useEffect(() => {
     dispatch(loadProductsRequest());
   }, [dispatch]);
-  
+
   const user = useSelector(state => state.posts.user);
   console.log('user', user);
   const handleSearch = (e) => {
@@ -32,8 +32,9 @@ function MainPage() {
       <div className="d-flex justify-content-between align-items-center mb-4">
         <h1>Posts</h1>
         <div>
-          {/* TODO cart icon */}
-          <CartIcon />
+          <Link to={"/cart"}>
+            <CartIcon />
+          </Link>
         </div>
       </div>
       <Form onSubmit={handleSearch} className="mb-4">
