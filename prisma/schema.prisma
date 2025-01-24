@@ -21,11 +21,19 @@ model Product {
   ram Int
   storage Int
   screen Int
-  image String
-  description String 
+  description String
+
+  images Image[] // Relation to the Image model
 
   orderProducts  OrderItem[]
   cartProducts   CartItem[]
+}
+
+model Image {
+  id String  @id @default(uuid())
+  url String
+  product Product @relation(fields: [productId], references: [id], onDelete: Cascade)
+  productId String
 }
 
 model Order {
