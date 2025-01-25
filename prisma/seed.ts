@@ -18,7 +18,7 @@ function getProducts() {
       screen: 14,
       price: 300,
       description: 'Durable and reliable business laptop with a classic keyboard',
-      images: ["t420_1", "t420_2", "t420_3", "t420_4"],
+      images: "t420_1 t420_2 t420_3 t420_4",
     },
     {
       id: '2832a8ea-f990-409f-8f63-8839601528c7',
@@ -29,7 +29,7 @@ function getProducts() {
       screen: 14,
       price: 250,
       description: 'Compact and powerful ultraportable laptop',
-      images: ["x220_1", "x220_2", "x220_3", "x220_4"],
+      images: "x220_1 x220_2 x220_3 x220_4",
     },
     {
       id: 'c9e9e34a-ac08-476e-baec-9d33bd144d8f',
@@ -40,7 +40,7 @@ function getProducts() {
       screen: 14,
       price: 350,
       description: 'Enhanced performance with a robust build quality',
-      images: ["t430s_1", "t430s_2", "t430s_3", "t430s_4"],
+      images: "t430s_1 t430s_2 t430s_3 t430s_4",
     },
     {
       id: '0dafb28f-e0db-4b0a-889e-923ee37b3001',
@@ -51,7 +51,7 @@ function getProducts() {
       screen: 14,
       price: 200,
       description: 'Lightweight and portable with a solid build',
-      images: ["x301_1", "x301_2", "x301_3", "x301_4"],
+      images: "x301_1 x301_2 x301_3 x301_4",
     },
     {
       id: '5e6e4712-1510-472f-88ae-ea37b3311892',
@@ -62,7 +62,7 @@ function getProducts() {
       screen: 14,
       price: 180,
       description: 'Early ultraportable with a compact design',
-      images: ["x20_1", "x20_2", "x20_3", "x20_4"],
+      images: "x20_1 x20_2 x20_3 x20_4",
     },
     {
       id: '3c7c5635-c4df-445b-bd34-1f31bfc4be6a',
@@ -73,7 +73,7 @@ function getProducts() {
       screen: 14,
       price: 220,
       description: 'Versatile and durable with a great keyboard',
-      images: ["t40_1", "t40_2", "t40_3", "t40_4"],
+      images: "t40_1 t40_2 t40_3 t40_4",
     },
     {
       id: '3b544d6a-28aa-4e13-a940-3a7fcbb33644',
@@ -84,7 +84,7 @@ function getProducts() {
       screen: 14,
       price: 240,
       description: 'High performance with a robust build',
-      images: ["t43p_1", "t43p_2", "t43p_3", "t43p_4"],
+      images: "t43p_1 t43p_2 t43p_3 t43p_4",
     },
     {
       id: '4be66634-9422-4e86-a5c1-a7b481d26112',
@@ -95,7 +95,7 @@ function getProducts() {
       screen: 14,
       price: 260,
       description: 'Professional-grade laptop with advanced features',
-      images: ["t60_1", "t60_2", "t60_3", "t60_4"],
+      images: "t60_1 t60_2 t60_3 t60_4",
     },
     {
       id: '2771611e-1b29-4c4f-afec-179eaa6b0c2f',
@@ -106,7 +106,7 @@ function getProducts() {
       screen: 14,
       price: 210,
       description: 'Ultra-portable with a lightweight design',
-      images: ["x40_1", "x40_2", "x40_3", "x40_4"],
+      images: "x40_1 x40_2 x40_3 x40_4",
     },
     {
       id: '9e3d220d-1f1d-4650-a4f0-d0876a27a43c',
@@ -117,7 +117,7 @@ function getProducts() {
       screen: 12,
       price: 230,
       description: 'Convertible tablet with a versatile design',
-      images: ["x41Tablet_1", "x41Tablet_2", "x41Tablet_3", "x41Tablet_4"],
+      images: "x41Tablet_1 x41Tablet_2 x41Tablet_3 x41Tablet_4",
     },
     {
       id: 'cadfad48-0476-4c0d-bba3-7187cd51dc36',
@@ -128,7 +128,7 @@ function getProducts() {
       screen: 12,
       price: 250,
       description: 'Convertible tablet with enhanced performance',
-      images: ["x60Tablet_1", "x60Tablet_2", "x60Tablet_3", "x60Tablet_4"],
+      images: "x60Tablet_1 x60Tablet_2 x60Tablet_3 x60Tablet_4",
     },
     {
       id: 'abdd1859-de33-403e-ab05-8d696e907351',
@@ -139,7 +139,7 @@ function getProducts() {
       screen: 12,
       price: 310,
       description: 'Enhanced version of the X300 with improved features',
-      images: ["x301_1", "x301_2", "x301_3", "x301_4"],
+      images: "x301_1 301_2 x301_3 x301_4",
     },
     {
       id: '6f3fcedf-ca54-4ea7-ad1a-eafa4a2d8a69',
@@ -150,7 +150,7 @@ function getProducts() {
       screen: 12,
       price: 240,
       description: 'Ultra-portable with a lightweight and compact design',
-      images: ["x60_1", "x60_2", "x60_3", "x60_4"],
+      images: "x60_1 x60_2 x60_3 x60_4",
     },
     {
       id: '158aba7f-6017-46d8-a55c-ca47f8c2ca4f',
@@ -161,7 +161,7 @@ function getProducts() {
       screen: 14,
       price: 800,
       description: 'Anniversary edition with classic design and modern features',
-      images: ["T25_1", "T25_2", "T25_3", "T25_4"],
+      images: "T25_1 T25_2 T25_3 T25_4",
     },
     {
       id: '47573316-45fd-4ff9-8255-8320b356552b',
@@ -172,7 +172,7 @@ function getProducts() {
       screen: 14,
       price: 400,
       description: 'High-performance workstation with dual screens',
-      images: ["w701ds_1", "w701ds_2", "w701ds_3", "w701ds_4"],
+      images: "w701ds_1 w701ds_2 w701ds_3 w701ds_4",
     },
   ]
 }

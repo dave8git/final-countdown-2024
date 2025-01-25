@@ -12,17 +12,23 @@ export class CreateProductDTO  {
     @Min(0)
     price: number;
     
+    @IsString()
+    @IsNotEmpty()
     cpu: string;
 
+    @IsInt()
     ram: number;
 
+    @IsInt()
     storage: number;
 
+    @IsInt()
     screen: number; 
 
-    image: string; 
+    @IsString()  // Single string for images, not an array
+    images: string;  // Changed back to a single string
     
     @IsString()
     @IsNotEmpty()
     description: string;
-  };
+}

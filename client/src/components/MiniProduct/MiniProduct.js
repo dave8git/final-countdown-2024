@@ -1,14 +1,12 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Card, Button, ListGroup, Badge } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 
 const imageExtensions = ['jpg', 'png', 'gif'];
 
 function MiniPost({ post }) {
-  // console.log('post', post);
-
   const [imageUrl, setImageUrl] = useState('');
-  
+
   const loadImage = (imageName, extIndex = 0) => {
     const extension = imageExtensions[extIndex];
     const imagePath = `http://localhost:8000/public/images/${imageName}.${extension}`;
@@ -27,13 +25,16 @@ function MiniPost({ post }) {
     img.src = imagePath;
   };
 
-  if (post.image && !imageUrl) {
-    loadImage(post.image);
-  }
+  useEffect(() => {
+    if (post.images) {
+      const firstImage = post.images.split(' ')[0]; // Get the first image name
+      loadImage(firstImage);
+    }
+  }, [post]);
 
   return (
     <Card key={post.id} className="shadow-lg rounded mb-4" style={{ maxWidth: '500px', margin: 'auto' }}>
-      {post.image && imageUrl && (
+      {imageUrl && (
         <Card.Img
           variant="top"
           src={imageUrl}
