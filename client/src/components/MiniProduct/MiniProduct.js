@@ -10,7 +10,7 @@ function MiniPost({ post }) {
   const loadImage = (imageName, extIndex = 0) => {
     const extension = imageExtensions[extIndex];
     const imagePath = `http://localhost:8000/public/images/${imageName}.${extension}`;
-
+    
     setImageUrl(imagePath);
 
     const img = new Image();

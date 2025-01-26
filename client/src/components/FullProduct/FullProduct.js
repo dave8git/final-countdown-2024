@@ -3,7 +3,7 @@ import { Link, useParams, useNavigate } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { addToCart } from '../../redux/cartReducer';
 import { getPostsById, loadPostByIdRequest } from '../../redux/postsReducer';
-import { Container, Card, Button, ListGroup, Badge, Spinner, Form } from 'react-bootstrap';
+import { Container, Card, Button, ListGroup, Badge, Spinner, Form, Carousel } from 'react-bootstrap';
 
 const imageExtensions = ['jpg', 'png', 'gif'];
 
@@ -13,7 +13,7 @@ function FullPost() {
   const navigate = useNavigate();
   const post = useSelector((state) => getPostsById(state, id));
 
-  const [imageUrl, setImageUrl] = useState('');
+  const [imageUrls, setImageUrls] = useState([]);
   const [quantity, setQuantity] = useState(1);
 
   useEffect(() => {
@@ -23,31 +23,48 @@ function FullPost() {
   }, [dispatch, id, post]);
 
   useEffect(() => {
-    if (post?.image) {
-      loadImage(post.image);
+    if (post?.images) {
+      const imageArray = post.images.split(' ');
+      preloadImages(imageArray);
     }
   }, [post]);
 
-  const loadImage = (imageName, extIndex = 0) => {
-    const extension = imageExtensions[extIndex];
-    const imagePath = `http://localhost:8000/public/images/${imageName}.${extension}`;
+  const preloadImages = async (imageArray) => {
+    const validImageUrls = await Promise.all(
+      imageArray.map((imageName) => checkValidImage(imageName))
+    );
+    setImageUrls(validImageUrls.filter((url) => url));
+  };
 
-    setImageUrl(imagePath);
+  const checkValidImage = (imageName) => {
+    return new Promise((resolve) => {
+      let imageFound = false;
 
-    const img = new Image();
-    img.onerror = () => {
-      if (extIndex < imageExtensions.length - 1) {
-        loadImage(imageName, extIndex + 1);
-      } else {
-        setImageUrl('http://localhost:8000/public/images/default.jpg');
-      }
-    };
-    img.src = imagePath;
+      const tryExtension = (index) => {
+        if (index >= imageExtensions.length) {
+          resolve('http://localhost:8000/public/images/default.jpg');
+          return;
+        }
+
+        const testPath = `http://localhost:8000/public/images/${imageName}.${imageExtensions[index]}`;
+        const img = new Image();
+        img.onload = () => {
+          if (!imageFound) {
+            imageFound = true;
+            resolve(testPath);
+          }
+        };
+        img.onerror = () => tryExtension(index + 1);
+        img.src = testPath;
+      };
+
+      tryExtension(0);
+    });
   };
 
   const handleAddToCart = () => {
-    if(post && quantity > 0) {
-      dispatch(addToCart({ id: post.id, quantity}));
+    if (post && quantity > 0) {
+      dispatch(addToCart({ id: post.id, quantity }));
       console.log(`Added ${quantity} of "${post.name}" to the cart.`);
     }
   };
@@ -55,13 +72,19 @@ function FullPost() {
   return post ? (
     <Container className="mt-4">
       <Card className="shadow-lg rounded" style={{ maxWidth: '600px', margin: 'auto' }}>
-        {post.image && imageUrl && (
-          <Card.Img
-            variant="top"
-            src={imageUrl}
-            alt={post.name}
-            style={{ height: '300px', objectFit: 'cover' }}
-          />
+        {imageUrls.length > 0 && (
+          <Carousel>
+            {imageUrls.map((url, index) => (
+              <Carousel.Item key={index}>
+                <img
+                  className="d-block w-100"
+                  src={url}
+                  alt={`Slide ${index + 1}`}
+                  style={{ height: '300px', objectFit: 'cover' }}
+                />
+              </Carousel.Item>
+            ))}
+          </Carousel>
         )}
         <Card.Body>
           <Card.Title className="text-primary fw-bold">{post.name}</Card.Title>
