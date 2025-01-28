@@ -22,7 +22,8 @@ function Cart() {
       {cartItems.length === 0 ? (
         <p className="text-center text-muted">Your cart is empty</p>
       ) : (
-        <Row className="g-4">
+        <>
+           <Row className="g-4">
           {cartProducts.map((product) => {
             const cartItem = cartItems.find((item) => item.id === product.id);
             return (
@@ -52,7 +53,6 @@ function Cart() {
                             }
                             style={{ width: '80px' }}
                         >
-                            
                         </Form.Control>
                       </ListGroup.Item>
                       <ListGroup.Item>
@@ -68,7 +68,6 @@ function Cart() {
                     </ListGroup>
                     <div className="d-flex justify-content-between mt-3">
                       <Button variant="danger">Remove</Button>
-                      <Button variant="primary">Checkout</Button>
                     </div>
                   </Card.Body>
                 </Card>
@@ -76,6 +75,8 @@ function Cart() {
             );
           })}
         </Row>
+         <Button variant="primary">Checkout</Button>
+        </>
       )}
     </div>
   );
