@@ -2,24 +2,15 @@ import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Card, ListGroup, Badge, Button, Row, Col, Form } from 'react-bootstrap';
 import { getCartItems, fetchCartProducts, updateCartQuantity, deleteCartItem } from '../../redux/cartReducer';
+import CartItem from '../CartItem/CartItem';
 
 function Cart() {
   const dispatch = useDispatch();
-  //const cartItems = useSelector(getCartItems);
   const cartProducts = useSelector((state) => state.cart.data);
 
   useEffect(() => {
     dispatch(fetchCartProducts());
   }, [dispatch]);
-
-  const handleQuantityChange = (productId, newQuantity) => {
-    dispatch(updateCartQuantity({ id: productId, quantity: newQuantity }));
-  };
-
-  const handleDeleteItem = (productId) => {
-    console.log('handleDeleteItem');
-    dispatch(deleteCartItem({ id: productId}));
-  }
 
   return (
     <div className="container mt-4">
@@ -28,58 +19,12 @@ function Cart() {
         <p className="text-center text-muted">Your cart is empty</p>
       ) : (
         <>
-           <Row className="g-4">
-          {cartProducts.map((product) => {
-            return (
-              <Col key={product.id} md={6} lg={4}>
-                <Card className="shadow-lg rounded">
-                  {product.image && (
-                    <Card.Img
-                      variant="top"
-                      src={product.image}
-                      alt={product.name}
-                      style={{ height: '200px', objectFit: 'cover' }}
-                    />
-                  )}
-                  <Card.Body>
-                    <Card.Title className="text-primary fw-bold">
-                      {product.name}
-                    </Card.Title>
-                    <ListGroup variant="flush">
-                      <ListGroup.Item className="d-flex align-items-center">
-                        <strong className="me-2">Quantity:</strong>
-                        <Form.Control
-                            type="number"
-                            min="1"
-                            value={product.quantity}
-                            onChange={(e) => 
-                                handleQuantityChange(product.id, parseInt(e.target.value, 10))
-                            }
-                            style={{ width: '80px' }}
-                        >
-                        </Form.Control>
-                      </ListGroup.Item>
-                      <ListGroup.Item>
-                        <strong>Price (Each):</strong>{' '}
-                        <Badge bg="info" className="fs-6">${product.price}</Badge>
-                      </ListGroup.Item>
-                      <ListGroup.Item>
-                        <strong>Total Price:</strong>{' '}
-                        <Badge bg="success" className="fs-6">
-                          ${product.price * product.quantity}
-                        </Badge>
-                      </ListGroup.Item>
-                    </ListGroup>
-                    <div className="d-flex justify-content-between mt-3">
-                      <Button variant="danger" onClick={() => handleDeleteItem(product.id)}>Remove</Button>
-                    </div>
-                  </Card.Body>
-                </Card>
-              </Col>
-            );
-          })}
-        </Row>
-         <Button variant="primary">Checkout</Button>
+          <Row className="g-4">
+            {cartProducts.map((product) => (
+              <CartItem product={product} />
+            ))}
+          </Row>
+          <Button variant="primary">Checkout</Button>
         </>
       )}
     </div>
