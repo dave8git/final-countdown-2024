@@ -1,12 +1,12 @@
 import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Card, ListGroup, Badge, Button, Row, Col, Form } from 'react-bootstrap';
-import { getCartItems, fetchCartProducts, updateCartQuantity } from '../../redux/cartReducer';
+import { getCartItems, fetchCartProducts, updateCartQuantity, deleteCartItem } from '../../redux/cartReducer';
 
 function Cart() {
   const dispatch = useDispatch();
-  const cartItems = useSelector(getCartItems);
-  const cartProducts = useSelector((state) => state.cart.products || []);
+  //const cartItems = useSelector(getCartItems);
+  const cartProducts = useSelector((state) => state.cart.data);
 
   useEffect(() => {
     dispatch(fetchCartProducts());
@@ -16,16 +16,20 @@ function Cart() {
     dispatch(updateCartQuantity({ id: productId, quantity: newQuantity }));
   };
 
+  const handleDeleteItem = (productId) => {
+    console.log('handleDeleteItem');
+    dispatch(deleteCartItem({ id: productId}));
+  }
+
   return (
     <div className="container mt-4">
       <h1 className="text-center text-primary mb-4">Your Cart</h1>
-      {cartItems.length === 0 ? (
+      {cartProducts.length === 0 ? (
         <p className="text-center text-muted">Your cart is empty</p>
       ) : (
         <>
            <Row className="g-4">
           {cartProducts.map((product) => {
-            const cartItem = cartItems.find((item) => item.id === product.id);
             return (
               <Col key={product.id} md={6} lg={4}>
                 <Card className="shadow-lg rounded">
@@ -47,7 +51,7 @@ function Cart() {
                         <Form.Control
                             type="number"
                             min="1"
-                            value={cartItem.quantity}
+                            value={product.quantity}
                             onChange={(e) => 
                                 handleQuantityChange(product.id, parseInt(e.target.value, 10))
                             }
@@ -62,12 +66,12 @@ function Cart() {
                       <ListGroup.Item>
                         <strong>Total Price:</strong>{' '}
                         <Badge bg="success" className="fs-6">
-                          ${product.price * cartItem.quantity}
+                          ${product.price * product.quantity}
                         </Badge>
                       </ListGroup.Item>
                     </ListGroup>
                     <div className="d-flex justify-content-between mt-3">
-                      <Button variant="danger">Remove</Button>
+                      <Button variant="danger" onClick={() => handleDeleteItem(product.id)}>Remove</Button>
                     </div>
                   </Card.Body>
                 </Card>

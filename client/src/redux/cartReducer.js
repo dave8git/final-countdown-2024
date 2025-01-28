@@ -6,6 +6,7 @@ export const FETCH_CART_PRODUCTS = createActionName('FETCH_CART_PRODUCTS');
 export const FETCH_CART_PRODUCTS_SUCCESS = createActionName('FETCH_CART_PRODUCTS_SUCCESS');
 export const FETCH_CART_PRODUCTS_FAILURE = createActionName('FETCH_CART_PRODUCTS_FAILURE');
 export const UPDATE_CART_QUANTITY = createActionName('UPDATE_CART_QUANTITY');
+export const DELETE_CART_ITEM = createActionName('DELETE_CART_ITEM');
 // sources: https://github.com/dave8git/testimonials-node-2024/blob/master/client/src/redux/seatsRedux.js
 const API_URL = 'http://localhost:8000/api';
 /* SELECTORS */
@@ -19,6 +20,7 @@ const ADD_TO_CART = createActionName('ADD_TO_CART');
 
 export const addToCart = payload => ({ payload, type: ADD_TO_CART });
 export const updateCartQuantity = (payload) => ({ payload, type: UPDATE_CART_QUANTITY})
+export const deleteCartItem = (payload) => ({payload, type: DELETE_CART_ITEM});
 /* THUNKS */
 
 export const fetchCartProducts = () => async (dispatch, getState) => {
@@ -90,6 +92,16 @@ export default function reducer(statePart = initialState, action = {}) {
                 ...statePart, 
                 products: action.payload
             };
+        }
+
+        case DELETE_CART_ITEM: {
+            console.log('delete działa');
+            console.log('action.payload', action.paylod);
+            return {
+                statePart, 
+                data: statePart.data.filter((item) => 
+                item.id !== action.payload.id)
+            }
         }
         
         default:
