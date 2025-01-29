@@ -73,7 +73,24 @@ function FullPost() {
     <Container className="mt-4">
       <Card className="shadow-lg rounded" style={{ maxWidth: '600px', margin: 'auto' }}>
         {imageUrls.length > 0 && (
-          <Carousel>
+          <Carousel
+            prevIcon={
+              <span
+                className="carousel-control-prev-icon"
+                style={{
+                  filter: 'brightness(0) saturate(100%) invert(14%) sepia(89%) saturate(7484%) hue-rotate(360deg) brightness(95%) contrast(120%)',
+                }}
+              />
+            }
+            nextIcon={
+              <span
+                className="carousel-control-next-icon"
+                style={{
+                  filter: 'brightness(0) saturate(100%) invert(14%) sepia(89%) saturate(7484%) hue-rotate(360deg) brightness(95%) contrast(120%)',
+                }}
+              />
+            }
+          >
             {imageUrls.map((url, index) => (
               <Carousel.Item key={index}>
                 <img
