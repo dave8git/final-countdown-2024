@@ -2,6 +2,7 @@ import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Card, ListGroup, Badge, Button, Row, Col, Form } from 'react-bootstrap';
 import { getCartItems, fetchCartProducts, updateCartQuantity, deleteCartItem } from '../../redux/cartReducer';
+import { Link } from 'react-router-dom';
 import CartItem from '../CartItem/CartItem';
 
 function Cart() {
@@ -24,7 +25,9 @@ function Cart() {
               <CartItem product={product} />
             ))}
           </Row>
-          <Button variant="primary">Checkout</Button>
+          <Link to={`/checkout`}>
+            <Button variant="primary">Checkout</Button>
+          </Link>
         </>
       )}
     </div>
