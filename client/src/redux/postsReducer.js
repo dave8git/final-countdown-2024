@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 // sources: https://github.com/dave8git/testimonials-node-2024/blob/master/client/src/redux/seatsRedux.js
-const API_URL = 'http://localhost:8000/api';
+export const API_URL = 'http://localhost:8000/api';
 /* SELECTORS */
 export const getPosts = ({ posts }) => posts.data;
 //export const getPostsById = ({ posts }, id) => posts.data.find(post => post._id === id);

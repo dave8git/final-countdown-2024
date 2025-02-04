@@ -3,11 +3,14 @@ import { useSelector, useDispatch } from 'react-redux';
 import { Card, ListGroup, Button, Row, Col, Form } from 'react-bootstrap';
 import { fetchCartProducts } from '../../redux/cartReducer';
 import { Link } from 'react-router-dom';
+import { API_URL } from '../../redux/postsReducer';
+import axios from 'axios';
+import { Cart } from 'react-bootstrap-icons';
 
 function Checkout() {
   const dispatch = useDispatch();
   const cartProducts = useSelector((state) => state.cart.data);
-  const [formData, setFormData] = useState({ name: '', address: '', email: '' });
+  const [formData, setFormData] = useState({ customer: '', address: '', email: '' });
 
   useEffect(() => {
     dispatch(fetchCartProducts());
@@ -19,9 +22,21 @@ function Checkout() {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  const handleOrderSubmit = (e) => {
+  const handleOrderSubmit = async (e) => {
     e.preventDefault();
-    alert(`Order placed for ${formData.name}!`);
+    const summary = {
+        ...formData,
+        products: cartProducts
+    };
+    console.log("sending data");
+    try {
+        let res = await axios.post(`${API_URL}/orders`, summary);
+        console.log(`Order placed for ${formData.name}!`);
+    } catch (e) {
+        console.log('error', e);
+    }
+   
+   
   };
 
   return (
@@ -56,7 +71,7 @@ function Checkout() {
               <Form onSubmit={handleOrderSubmit}>
                 <Form.Group className="mb-3">
                   <Form.Label>Name</Form.Label>
-                  <Form.Control type="text" name="name" value={formData.name} onChange={handleInputChange} required />
+                  <Form.Control type="text" name="customer" value={formData.customer} onChange={handleInputChange} required />
                 </Form.Group>
                 <Form.Group className="mb-3">
                   <Form.Label>Address</Form.Label>

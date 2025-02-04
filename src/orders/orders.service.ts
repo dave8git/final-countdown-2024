@@ -2,6 +2,7 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { CartService } from 'src/cart/cart.service';
 import {  Order, } from '@prisma/client';
+import { CreateOrderDTO } from './dtos/create-order.dto';
 
 @Injectable()
 export class OrdersService {
@@ -10,16 +11,16 @@ export class OrdersService {
         private cartService: CartService,
         ) {}
 
-    async getAllByUserId(userId: string): Promise<Order[]> {
-        return this.prismaService.order.findMany({
-          where: {
-            userId: userId,
-          },
-          include: {
-            orderItems: true,
-          },
-        });
-    }
+    // async getAllByUserId(userId: string): Promise<Order[]> {
+    //     return this.prismaService.order.findMany({
+    //       where: {
+    //         userId: userId,
+    //       },
+    //       include: {
+    //         orderItems: true,
+    //       },
+    //     });
+    // }
 
     async getById(id: string): Promise<Order | null> {
         return this.prismaService.order.findUnique({
@@ -30,47 +31,41 @@ export class OrdersService {
         });
     }
 
-    async createOrderFromCart(userId: string) {
-       
-        const userCart = await this.cartService.getCartByUser(userId);
-    
-        
-        if (!userCart) {
-          throw new Error('User cart not found');
-        }
-    
-        
-        const newOrder = await this.prismaService.order.create({
+    async createOrderFromCart(createOrderDto: CreateOrderDTO) {
+      const { customer, email, address, products, comment, date } = createOrderDto;
+  
+      if (!products || products.length === 0) {
+          throw new NotFoundException('Order must contain at least one product');
+      }
+  
+      // Calculate total price
+      //const totalAmount = products.reduce((sum, product) => sum + product.price * product.quantity, 0);
+  
+      // Create the order in the database
+      const order = await this.prismaService.order.create({
           data: {
-            userId: userId,
-            orderItems: {
-              createMany: {
-                data: await Promise.all(
-                  userCart.cartItems.map(async (cartItem) => {
-                    
-                    const product = await this.prismaService.product.findUnique({
-                      where: { id: cartItem.productId },
-                    });
-    
-                    if (!product) {
-                      throw new Error(`Product with ID ${cartItem.productId} not found`);
-                    }
-    
-                    return {
-                      quantity: cartItem.quantity,
+              customer,
+              email,
+              address,
+              comment,
+              orderItems: {
+                  create: products.map(product => ({
+                      productId: product.id,
+                      quantity: product.quantity,
                       price: product.price,
-                      productId: cartItem.productId,
-                    };
-                  })
-                ),
+                  })),
               },
-            },
-          } as any,
-        });
-    
-        
-        await this.cartService.clearCart(userId);
-    
-        return newOrder;
-    }
+              createdAt: date || new Date(),
+              updatedAt: new Date(),
+          },
+          include: {
+              orderItems: true,
+          },
+      });
+  
+      return order;
+  }
+  
+  
+
 }
