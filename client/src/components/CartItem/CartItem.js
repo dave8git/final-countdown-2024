@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Card, ListGroup, Badge, Button, Row, Col, Form } from 'react-bootstrap';
-import { getCartItems, fetchCartProducts, updateCartQuantity, deleteCartItem } from '../../redux/cartReducer';
+import { getCartItems, fetchCartProducts, updateCartQuantity, updateCartComment, deleteCartItem } from '../../redux/cartReducer';
 
 function CartItem({ product }) {
     const dispatch = useDispatch();
@@ -16,7 +16,7 @@ function CartItem({ product }) {
 
     const handleTextareaChange = (productId, text) => {
         console.log(`Comment for product ${productId}:`, text);
-        // Optional: Dispatch an action to save the comment in the store if needed
+        dispatch(updateCartComment({ id: productId, comment: text }));
     };
 
     return (

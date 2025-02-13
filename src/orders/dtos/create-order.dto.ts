@@ -9,9 +9,9 @@ export class CreateOrderDTO {
     // @Transform(({ value }) => new Decimal(value)) // Convert input to Decimal
     // totalPrice: Decimal;
 
-    @IsOptional()
-    @IsString()
-    comment?: string;
+    // @IsOptional()
+    // @IsString()
+    // comment?: string;
 
     @IsNotEmpty()
     @IsString()
@@ -33,10 +33,10 @@ export class CreateOrderDTO {
 
     products?: CartProductDTO[];
 
-    @IsOptional()
-    @Transform(({ value }) => new Date(value))
-    date?: Date;
+    // @IsOptional()
+    // @Transform(({ value }) => new Date(value))
+    // date?: Date;
 
-    @IsOptional()
-    updatedAt?: Date;
+    // @IsOptional()
+    // updatedAt?: Date;
 }

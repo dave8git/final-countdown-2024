@@ -6,6 +6,7 @@ export const FETCH_CART_PRODUCTS = createActionName('FETCH_CART_PRODUCTS');
 export const FETCH_CART_PRODUCTS_SUCCESS = createActionName('FETCH_CART_PRODUCTS_SUCCESS');
 export const FETCH_CART_PRODUCTS_FAILURE = createActionName('FETCH_CART_PRODUCTS_FAILURE');
 export const UPDATE_CART_QUANTITY = createActionName('UPDATE_CART_QUANTITY');
+export const UPDATE_CART_COMMENT = createActionName('UPDATE_CART_COMMENT');
 export const DELETE_CART_ITEM = createActionName('DELETE_CART_ITEM');
 // sources: https://github.com/dave8git/testimonials-node-2024/blob/master/client/src/redux/seatsRedux.js
 const API_URL = 'http://localhost:8000/api';
@@ -19,7 +20,8 @@ const ADD_TO_CART = createActionName('ADD_TO_CART');
 //const UPDATE_CART_QUANTITY = createActionName('UPDATE_CART_QUANTITY');
 
 export const addToCart = payload => ({ payload, type: ADD_TO_CART });
-export const updateCartQuantity = (payload) => ({ payload, type: UPDATE_CART_QUANTITY})
+export const updateCartQuantity = (payload) => ({ payload, type: UPDATE_CART_QUANTITY});
+export const updateCartComment = (payload) => ({ payload, type: UPDATE_CART_COMMENT});
 export const deleteCartItem = (payload) => ({payload, type: DELETE_CART_ITEM});
 /* THUNKS */
 
@@ -83,6 +85,16 @@ export default function reducer(statePart = initialState, action = {}) {
                 data: statePart.data.map((item) => 
                     item.id === action.payload.id
                     ? { ...item, quantity: action.payload.quantity }
+                    : item
+                )
+            }
+        }
+        case UPDATE_CART_COMMENT: {
+            return {
+                ...statePart, 
+                data: statePart.data.map((item) => 
+                    item.id === action.payload.id
+                    ? { ...item, comment: action.payload.comment }
                     : item
                 )
             }

@@ -177,90 +177,93 @@ function getProducts() {
   ]
 }
 
-function getUsers() {
-  return [
-    {
-      id: '74463e29-fbb3-4ee3-b5e9-069ecaa88302',
-      email: 'john.doe@gmail.com',
-      role: Role.USER,
-    },
-    {
-      id: 'cd048ba0-e7a0-4d81-a3d1-226cdfb1698c',
-      email: 'jane.doe@gmail.com',
-      role: Role.USER,
-    },
-    {
-      id: '860171b5-2433-4ef9-92d2-5233d9b1138a',
-      email: 'dave.doe@gmail.com',
-      role: Role.USER,
-    },
-  ]
-}
+// function getUsers() {
+//   return [
+//     {
+//       id: '74463e29-fbb3-4ee3-b5e9-069ecaa88302',
+//       email: 'john.doe@gmail.com',
+//       role: Role.USER,
+//     },
+//     {
+//       id: 'cd048ba0-e7a0-4d81-a3d1-226cdfb1698c',
+//       email: 'jane.doe@gmail.com',
+//       role: Role.USER,
+//     },
+//     {
+//       id: '860171b5-2433-4ef9-92d2-5233d9b1138a',
+//       email: 'dave.doe@gmail.com',
+//       role: Role.USER,
+//     },
+//   ]
+// }
 
-function getPasswords() {
-  return [
-    {
-      user: { connect: { id: '74463e29-fbb3-4ee3-b5e9-069ecaa88302' } },
-      hashedPassword: 'password1',
-    },
-    {
-      user: { connect: { id: 'cd048ba0-e7a0-4d81-a3d1-226cdfb1698c' } },
-      hashedPassword: 'password2',
-    },
-    {
-      user: { connect: { id: '860171b5-2433-4ef9-92d2-5233d9b1138a' } },
-      hashedPassword: 'password3',
-    },
-  ]
-}
+// function getPasswords() {
+//   return [
+//     {
+//       user: { connect: { id: '74463e29-fbb3-4ee3-b5e9-069ecaa88302' } },
+//       hashedPassword: 'password1',
+//     },
+//     {
+//       user: { connect: { id: 'cd048ba0-e7a0-4d81-a3d1-226cdfb1698c' } },
+//       hashedPassword: 'password2',
+//     },
+//     {
+//       user: { connect: { id: '860171b5-2433-4ef9-92d2-5233d9b1138a' } },
+//       hashedPassword: 'password3',
+//     },
+//   ]
+// }
 
-function getCarts() {
-  return [
-    {
-      id: '4e0c1cb1-a2b4-4fc6-8c3a-3c57c8886b2d',
-      user: { connect: { id: '74463e29-fbb3-4ee3-b5e9-069ecaa88302' } },
-    },
-    {
-      id: '9b2d5c4e-c7a4-4ddc-b75e-918b1d93a6e3',
-      user: { connect: { id: 'cd048ba0-e7a0-4d81-a3d1-226cdfb1698c' } },
-    },
-    {
-      id: '73df22e5-f9aa-4d91-8c91-c144d16c3bc9',
-      user: { connect: { id: '860171b5-2433-4ef9-92d2-5233d9b1138a' } },
-    },
-  ];
-}
+// function getCarts() {
+//   return [
+//     {
+//       id: '4e0c1cb1-a2b4-4fc6-8c3a-3c57c8886b2d',
+//       user: { connect: { id: '74463e29-fbb3-4ee3-b5e9-069ecaa88302' } },
+//     },
+//     {
+//       id: '9b2d5c4e-c7a4-4ddc-b75e-918b1d93a6e3',
+//       user: { connect: { id: 'cd048ba0-e7a0-4d81-a3d1-226cdfb1698c' } },
+//     },
+//     {
+//       id: '73df22e5-f9aa-4d91-8c91-c144d16c3bc9',
+//       user: { connect: { id: '860171b5-2433-4ef9-92d2-5233d9b1138a' } },
+//     },
+//   ];
+// }
 
-function getCartProducts() {
-  return [
-    {
-      quantity: 1,
-      cart: { connect: { id: '4e0c1cb1-a2b4-4fc6-8c3a-3c57c8886b2d' } },
-      product: { connect: { id: '47573316-45fd-4ff9-8255-8320b356552b' } },
-    },
-    {
-      quantity: 1,
-      cart: { connect: { id: '9b2d5c4e-c7a4-4ddc-b75e-918b1d93a6e3' } },
-      product: { connect: { id: '158aba7f-6017-46d8-a55c-ca47f8c2ca4f' } },
-    },
-    {
-      quantity: 1,
-      cart: { connect: { id: '73df22e5-f9aa-4d91-8c91-c144d16c3bc9' } },
-      product: { connect: { id: '6f3fcedf-ca54-4ea7-ad1a-eafa4a2d8a69' } },
-    },
-  ]
-}
+// function getCartProducts() {
+//   return [
+//     {
+//       quantity: 1,
+//       cart: { connect: { id: '4e0c1cb1-a2b4-4fc6-8c3a-3c57c8886b2d' } },
+//       product: { connect: { id: '47573316-45fd-4ff9-8255-8320b356552b' } },
+//     },
+//     {
+//       quantity: 1,
+//       cart: { connect: { id: '9b2d5c4e-c7a4-4ddc-b75e-918b1d93a6e3' } },
+//       product: { connect: { id: '158aba7f-6017-46d8-a55c-ca47f8c2ca4f' } },
+//     },
+//     {
+//       quantity: 1,
+//       cart: { connect: { id: '73df22e5-f9aa-4d91-8c91-c144d16c3bc9' } },
+//       product: { connect: { id: '6f3fcedf-ca54-4ea7-ad1a-eafa4a2d8a69' } },
+//     },
+//   ]
+// }
 
 function getOrders() {
   return [
     {
       id: '550e8400-e29b-41d4-a716-446655440000',
-      date: new Date(),
+      // date: new Date(),
       totalPrice: 200,
       customer: 'John Doe',
       email: 'john.doe@gmail.com',
       address: '1 Trafalgar Square, London',
-      user: { connect: { id: '74463e29-fbb3-4ee3-b5e9-069ecaa88302' } },
+      // orderItems: [
+      //   { connect: { id: '58684427-56fe-5ffa-9266-9431c467663c' } }
+      // ],
+      // user: { connect: { id: '74463e29-fbb3-4ee3-b5e9-069ecaa88302' } },
     },
   ]
 }
@@ -268,8 +271,10 @@ function getOrders() {
 function getOrderItems() {
   return [
     {
+      id: '58684427-56fe-5ffa-9266-9431c467663c',
       quantity: 1,
       price: 200,
+      comment: "Please deliver before 5pm",
       order: { connect: { id: '550e8400-e29b-41d4-a716-446655440000' } },
       product: { connect: { id: '47573316-45fd-4ff9-8255-8320b356552b' } },
     },
@@ -279,12 +284,12 @@ function getOrderItems() {
 async function cleanDatabase() {
   console.log("Cleaning database...");
 
-  await db.cartItem.deleteMany();
-  await db.cart.deleteMany();
+  // await db.cartItem.deleteMany();
+  // await db.cart.deleteMany();
   await db.orderItem.deleteMany();
   await db.order.deleteMany();
-  await db.password.deleteMany();
-  await db.user.deleteMany();
+  // await db.password.deleteMany();
+  // await db.user.deleteMany();
   await db.product.deleteMany();
 
   console.log("Database cleaned.");
@@ -292,38 +297,45 @@ async function cleanDatabase() {
 
 async function seed() {
   await cleanDatabase();
+
   await Promise.all(
     getProducts().map((product) => {
       return db.product.create({ data: product });
     }),
   );
-  await Promise.all(
-    getUsers().map((user) => {
-      return db.user.create({ data: user });
-    }),
-  );
 
-  await Promise.all(
-    getPasswords().map( async (item) => {
-      item.hashedPassword = await bcrypt.hash(item.hashedPassword, 10);
-      return db.password.create({ data: item });
-    }),
-  );
-  await Promise.all(
-    getCarts().map((cart) => {
-      return db.cart.create({ data: cart });
-    }),
-  );
-  await Promise.all(
-    getCartProducts().map((cartItem) => {
-      return db.cartItem.create({ data: cartItem });
-    }),
-  );
+  // await Promise.all(
+  //   getUsers().map((user) => {
+  //     return db.user.create({ data: user });
+  //   }),
+  // );
+
+  // await Promise.all(
+  //   getPasswords().map( async (item) => {
+  //     item.hashedPassword = await bcrypt.hash(item.hashedPassword, 10);
+  //     return db.password.create({ data: item });
+  //   }),
+  // );
+
+  // await Promise.all(
+  //   getCarts().map((cart) => {
+  //     return db.cart.create({ data: cart });
+  //   }),
+  // );
+
+  // await Promise.all(
+  //   getCartProducts().map((cartItem) => {
+  //     return db.cartItem.create({ data: cartItem });
+  //   }),
+  // );
+
+  
   await Promise.all(
     getOrders().map((order) => {
       return db.order.create({ data: order });
     }),
   );
+  
   await Promise.all(
     getOrderItems().map((orderItem) => {
       return db.orderItem.create({ data: orderItem });
