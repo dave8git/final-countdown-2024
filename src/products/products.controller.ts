@@ -1,7 +1,7 @@
 import { Controller, Get, Param, ParseUUIDPipe, NotFoundException, Post, UseGuards, Body } from '@nestjs/common';
 import { ProductsService } from './products.service';
 import { CreateProductDTO } from './dtos/create-product.dto';
-import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
+// import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
 
 
 @Controller('products')
@@ -21,7 +21,7 @@ export class ProductsController {
     }
 
     @Post('/')
-    @UseGuards(JwtAuthGuard)
+    // @UseGuards(JwtAuthGuard)
     create(@Body() productData: CreateProductDTO) {
         return this.productsService.create(productData);
     }

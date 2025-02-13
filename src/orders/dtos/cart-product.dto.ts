@@ -6,10 +6,7 @@ export class CartProductDTO  {
     @IsString()
     @Length(10, 20)
     name: string;
-
-    @IsNotEmpty()
-    @IsInt()
-    @Min(0)
+    
     price: number;
     
     @IsString()
@@ -35,4 +32,6 @@ export class CartProductDTO  {
     id: string;
 
     quantity: number;
+
+    comment?: string;
 }

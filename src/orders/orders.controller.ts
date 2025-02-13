@@ -1,6 +1,6 @@
 import { Controller, Get, UseGuards, Req, Param, Post, Body } from '@nestjs/common';
 import { OrdersService } from './orders.service';
-import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
+// import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
 import { CreateOrderDTO } from './dtos/create-order.dto';
 
 @Controller('orders')
@@ -15,7 +15,7 @@ export class OrdersController {
     // }
 
     @Get('/:id')
-    @UseGuards(JwtAuthGuard)
+    // @UseGuards(JwtAuthGuard)
     getById(@Param('id') id: string) {
       return this.ordersService.getById(id);
     }
