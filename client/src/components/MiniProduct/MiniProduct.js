@@ -74,9 +74,9 @@ function MiniPost({ post }) {
           <Link to={`/products/${post.id}`}>
             <Button variant="primary">Read More</Button>
           </Link>
-          <Link to={`/edit/${post.id}`}>
+          {/* <Link to={`/edit/${post.id}`}>
             <Button variant="outline-secondary">Edit</Button>
-          </Link>
+          </Link> */}
         </div>
       </Card.Body>
     </Card>
