@@ -1,10 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { loadProductsRequest, searchPostsRequest, getPosts } from '../../redux/postsReducer';
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { Button, Form } from 'react-bootstrap';
 import MiniPost from '../MiniProduct/MiniProduct';
-import CartIcon from '../CartIcon/CartIcon';
 
 function MainPage() {
   const dispatch = useDispatch();
@@ -29,25 +28,6 @@ function MainPage() {
 
   return (
     <div className="container">
-      <div className="d-flex justify-content-between align-items-center mb-4">
-        <h1>Posts</h1>
-        <div>
-          <Link to={"/cart"}>
-            <CartIcon />
-          </Link>
-        </div>
-      </div>
-      <Form onSubmit={handleSearch} className="mb-4">
-        <Form.Control
-          type="text"
-          placeholder="Search posts..."
-          value={searchQuery}
-          onChange={(e) => setSearchQuery(e.target.value)}
-        />
-        <Button type="submit" variant="primary" className="mt-2">
-          Search
-        </Button>
-      </Form>
       {posts && posts.length > 0 ? (
         <div className="row">
           {posts.map((post) => (
