@@ -93,6 +93,9 @@ function Checkout() {
         <Link to="/cart">
           <Button variant="secondary">Back to Cart</Button>
         </Link>
+        <Link to="/">
+          <Button variant="secondary">Back to Main Page</Button>
+        </Link>
       </div>
     </div>
   );

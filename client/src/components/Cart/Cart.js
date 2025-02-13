@@ -28,6 +28,9 @@ function Cart() {
           <Link to={`/checkout`}>
             <Button variant="primary">Checkout</Button>
           </Link>
+          <Link to="/">
+            <Button variant="secondary">Back to Main Page</Button>
+          </Link>
         </>
       )}
     </div>
