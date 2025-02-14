@@ -1,16 +1,16 @@
 import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { Card, ListGroup, Button, Row, Col, Form } from 'react-bootstrap';
+import { Card, ListGroup, Button, Row, Col, Form, Modal } from 'react-bootstrap';
 import { fetchCartProducts } from '../../redux/cartReducer';
 import { Link } from 'react-router-dom';
 import { API_URL } from '../../redux/postsReducer';
 import axios from 'axios';
-import { Cart } from 'react-bootstrap-icons';
 
 function Checkout() {
   const dispatch = useDispatch();
   const cartProducts = useSelector((state) => state.cart.data);
   const [formData, setFormData] = useState({ customer: '', address: '', email: '' });
+  const [showModal, setShowModal] = useState(false);
 
   useEffect(() => {
     dispatch(fetchCartProducts());
@@ -25,18 +25,15 @@ function Checkout() {
   const handleOrderSubmit = async (e) => {
     e.preventDefault();
     const summary = {
-        ...formData,
-        products: cartProducts
+      ...formData,
+      products: cartProducts,
     };
-    console.log("sending data");
     try {
-        let res = await axios.post(`${API_URL}/orders`, summary);
-        console.log(`Order placed for ${formData.name}!`);
-    } catch (e) {
-        console.log('error', e);
+      await axios.post(`${API_URL}/orders`, summary);
+      setShowModal(true); // Show modal on successful order submission
+    } catch (error) {
+      console.error('Error placing order:', error);
     }
-   
-   
   };
 
   return (
@@ -91,12 +88,25 @@ function Checkout() {
       </Row>
       <div className="text-center mt-4">
         <Link to="/cart">
-          <Button variant="secondary">Back to Cart</Button>
+          <Button variant="secondary" className="me-2">Back to Cart</Button>
         </Link>
         <Link to="/">
           <Button variant="secondary">Back to Main Page</Button>
         </Link>
       </div>
+
+      {/* Order Confirmation Modal */}
+      <Modal show={showModal} onHide={() => setShowModal(false)} centered backdrop={true}>
+        <Modal.Header closeButton>
+          <Modal.Title>Order Placed</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <p>Your order has been successfully placed! Thank you for shopping with us.</p>
+        </Modal.Body>
+        <Modal.Footer>
+          <Button variant="primary" onClick={() => setShowModal(false)}>OK</Button>
+        </Modal.Footer>
+      </Modal>
     </div>
   );
 }
