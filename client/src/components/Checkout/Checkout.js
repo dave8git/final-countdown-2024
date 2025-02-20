@@ -1,23 +1,24 @@
 import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Card, ListGroup, Button, Row, Col, Form, Modal } from 'react-bootstrap';
-import { fetchCartProducts } from '../../redux/cartReducer';
-import { Link } from 'react-router-dom';
+import { clearCart, fetchCartProducts } from '../../redux/cartReducer';
+import { Link, useNavigate } from 'react-router-dom';
 import { API_URL } from '../../redux/postsReducer';
 import axios from 'axios';
 
 function Checkout() {
   const dispatch = useDispatch();
   const cartProducts = useSelector((state) => state.cart.data);
-  const [formData, setFormData] = useState({ customer: '', address: '', email: '' });
+  let emptyFormData = { customer: '', address: '', email: '' };
+  const [formData, setFormData] = useState({...emptyFormData});
   const [showModal, setShowModal] = useState(false);
+  const [modalContent, setModalContent] = useState({title: "", message: ""});
 
   useEffect(() => {
     dispatch(fetchCartProducts());
   }, [dispatch]);
-
+  const navigate = useNavigate();
   const totalAmount = cartProducts.reduce((total, product) => total + product.price * product.quantity, 0);
-
   const handleInputChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
@@ -30,11 +31,24 @@ function Checkout() {
     };
     try {
       await axios.post(`${API_URL}/orders`, summary);
-      setShowModal(true); // Show modal on successful order submission
+      setModalContent({title: "Order Placed", message: "Your order has been successfully placed! Thank you for shopping with us."});
+      setShowModal(true);
+      dispatch(clearCart());
+      setFormData({...emptyFormData})
     } catch (error) {
+      console.log(error);
+      setModalContent({title: "Error", message: "Something went wrong, try again much, much later :)"});
+      setShowModal(true);
       console.error('Error placing order:', error);
     }
   };
+
+  const onModalClick = (e) => {
+    setShowModal(false);
+    if(modalContent.title != "Error") {
+      navigate("/");
+    }
+  }
 
   return (
     <div className="container mt-4">
@@ -98,13 +112,13 @@ function Checkout() {
       {/* Order Confirmation Modal */}
       <Modal show={showModal} onHide={() => setShowModal(false)} centered backdrop={true}>
         <Modal.Header closeButton>
-          <Modal.Title>Order Placed</Modal.Title>
+          <Modal.Title>{modalContent.title}</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          <p>Your order has been successfully placed! Thank you for shopping with us.</p>
+          <p>{modalContent.message}</p>
         </Modal.Body>
         <Modal.Footer>
-          <Button variant="primary" onClick={() => setShowModal(false)}>OK</Button>
+          <Button variant="primary" onClick={() => onModalClick()}>OK</Button>
         </Modal.Footer>
       </Modal>
     </div>
