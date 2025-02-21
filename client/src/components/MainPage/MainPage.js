@@ -37,7 +37,7 @@ function MainPage() {
           ))}
         </div>
       ) : (
-        <p>No posts available.</p>
+        <p>Loading products...</p>
       )}
     </div>
   );

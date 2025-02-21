@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { Card, ListGroup, Badge, Button, Row, Col, Form } from 'react-bootstrap';
-import { getCartItems, fetchCartProducts, updateCartQuantity, deleteCartItem } from '../../redux/cartReducer';
+import { Button, Row, Col } from 'react-bootstrap';
+import { fetchCartProducts } from '../../redux/cartReducer';
 import { Link } from 'react-router-dom';
 import CartItem from '../CartItem/CartItem';
 
@@ -22,15 +22,20 @@ function Cart() {
         <>
           <Row className="g-4">
             {cartProducts.map((product) => (
-              <CartItem product={product} />
+              <Col key={product.id} md={4} className="d-flex justify-content-center">
+                <CartItem product={product} />
+              </Col>
             ))}
           </Row>
-          <Link to={`/checkout`}>
-            <Button variant="primary">Checkout</Button>
-          </Link>
-          <Link to="/">
-            <Button variant="secondary">Back to Main Page</Button>
-          </Link>
+
+          <div className="d-flex justify-content-between mt-4">
+            <Link to="/">
+              <Button variant="secondary">Back to Main Page</Button>
+            </Link>
+            <Link to="/checkout">
+              <Button variant="primary">Checkout</Button>
+            </Link>
+          </div>
         </>
       )}
     </div>

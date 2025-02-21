@@ -21,7 +21,7 @@ function CartItem({ product }) {
 
     return (
         <div className="container mt-4">
-            <Col key={product.id} md={6} lg={4}>
+            <Col key={product.id}>
                 <Card className="shadow-lg rounded">
                     {product.image && (
                         <Card.Img

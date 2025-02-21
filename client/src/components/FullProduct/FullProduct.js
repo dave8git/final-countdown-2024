@@ -131,13 +131,13 @@ function FullPost() {
                 onChange={(e) => setQuantity(Number(e.target.value))}
               />
             </Form.Group>
-            <div className="mt-3 d-flex gap-3">
+            <div className="mt-3 d-flex justify-content-between">
+              <Link to="/">
+                <Button variant="secondary">Main Page</Button>
+              </Link>
               <Button variant="primary" onClick={handleAddToCart}>
                 Add to Cart
               </Button>
-              <Link to="/">
-                <Button variant="info">Main Page</Button>
-              </Link>
             </div>
           </div>
         </Card.Body>

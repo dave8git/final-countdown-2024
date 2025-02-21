@@ -12,10 +12,8 @@ function CartIcon() {
 
   return (
     <div className="position-relative d-inline-block">
-      {/* Cart Icon */}
-      <Icon.Cart size={24} />
+      <Icon.Cart size={34} />
 
-      {/* Badge for the number of items */}
       {totalQuantity > 0 && (
         <Badge
           pill
