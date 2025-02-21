@@ -4,6 +4,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { addToCart } from '../../redux/cartReducer';
 import { getPostsById, loadPostByIdRequest } from '../../redux/postsReducer';
 import { Container, Card, Button, ListGroup, Badge, Spinner, Form, Carousel } from 'react-bootstrap';
+import { IMGS_URL } from '../../config';
 
 const imageExtensions = ['jpg', 'png', 'gif'];
 
@@ -42,11 +43,11 @@ function FullPost() {
 
       const tryExtension = (index) => {
         if (index >= imageExtensions.length) {
-          resolve('http://localhost:8000/public/images/default.jpg');
+          resolve(`${IMGS_URL}default.jpg`);  // Use IMGS_URL
           return;
         }
 
-        const testPath = `http://localhost:8000/public/images/${imageName}.${imageExtensions[index]}`;
+        const testPath = `${IMGS_URL}${imageName}.${imageExtensions[index]}`;  // Use IMGS_URL
         const img = new Image();
         img.onload = () => {
           if (!imageFound) {

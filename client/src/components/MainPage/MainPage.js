@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { loadProductsRequest, searchPostsRequest, getPosts } from '../../redux/postsReducer';
 import { useNavigate } from 'react-router-dom';
 import { Button, Form } from 'react-bootstrap';
-import MiniPost from '../MiniProduct/MiniProduct';
+import MiniProduct from '../MiniProduct/MiniProduct';
 
 function MainPage() {
   const dispatch = useDispatch();
@@ -17,6 +17,7 @@ function MainPage() {
 
   const user = useSelector(state => state.posts.user);
   console.log('user', user);
+
   const handleSearch = (e) => {
     e.preventDefault();
     if (searchQuery) {
@@ -31,8 +32,8 @@ function MainPage() {
       {posts && posts.length > 0 ? (
         <div className="row">
           {posts.map((post) => (
-            <div className="col-md-4" key={post._id}>
-              <MiniPost post={post} />
+            <div className="col-md-4 d-flex mb-4" key={post._id} style={{ display: 'flex', justifyContent: 'center' }}>
+              <MiniProduct post={post} />
             </div>
           ))}
         </div>

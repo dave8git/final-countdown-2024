@@ -1,16 +1,17 @@
 import React, { useState, useEffect } from 'react';
 import { Card, Button, ListGroup, Badge } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
+import { IMGS_URL } from '../../config';
 
 const imageExtensions = ['jpg', 'png', 'gif'];
 
-function MiniPost({ post }) {
+function MiniProduct({ post }) {
   const [imageUrl, setImageUrl] = useState('');
 
   const loadImage = (imageName, extIndex = 0) => {
     const extension = imageExtensions[extIndex];
-    const imagePath = `http://localhost:8000/public/images/${imageName}.${extension}`;
-    
+    const imagePath = `${IMGS_URL}/${imageName}.${extension}`;
+
     setImageUrl(imagePath);
 
     const img = new Image();
@@ -19,7 +20,7 @@ function MiniPost({ post }) {
       if (extIndex < imageExtensions.length - 1) {
         loadImage(imageName, extIndex + 1);
       } else {
-        setImageUrl('http://localhost:8000/public/images/default.jpg');
+        setImageUrl(`${IMGS_URL}/default.jpg`);
       }
     };
     img.src = imagePath;
@@ -33,22 +34,32 @@ function MiniPost({ post }) {
   }, [post]);
 
   return (
-    <Card key={post.id} className="shadow-lg rounded mb-4" style={{ maxWidth: '500px', margin: 'auto' }}>
+    <Card 
+      key={post.id} 
+      className="shadow-lg rounded mb-4 d-flex flex-column" 
+      style={{ minHeight: '550px' }} // Keeps the card a consistent height
+    >
       {imageUrl && (
         <Card.Img
           variant="top"
           src={imageUrl}
           alt={post.name}
-          style={{ height: '250px', objectFit: 'cover' }}
+          style={{
+            width: '100%', // Ensure the image stretches across the entire card width
+            height: '250px', // Fixed height
+            objectFit: 'cover', // Ensures the image fills the space while maintaining its aspect ratio
+          }}
         />
       )}
-      <Card.Body>
+      <Card.Body className="d-flex flex-column" style={{ flexGrow: 1 }}>
         <Card.Title className="text-primary fw-bold">{post.name}</Card.Title>
         {post.description && (
           <Card.Subtitle className="text-secondary mb-2">{post.description}</Card.Subtitle>
         )}
         
-        <Card.Text className="text-muted">{post.content}</Card.Text>
+        <Card.Text className="text-muted" style={{ flexGrow: 1 }}>
+          {post.content}
+        </Card.Text>
 
         {/* List of Specifications */}
         <ListGroup variant="flush">
@@ -74,13 +85,10 @@ function MiniPost({ post }) {
           <Link to={`/products/${post.id}`}>
             <Button variant="primary">Read More</Button>
           </Link>
-          {/* <Link to={`/edit/${post.id}`}>
-            <Button variant="outline-secondary">Edit</Button>
-          </Link> */}
         </div>
       </Card.Body>
     </Card>
   );
 }
 
-export default MiniPost;
+export default MiniProduct;

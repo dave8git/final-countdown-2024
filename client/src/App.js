@@ -6,6 +6,7 @@ import FullProduct from './components/FullProduct/FullProduct';
 import Cart from './components/Cart/Cart';
 import Checkout from './components/Checkout/Checkout';
 import CartIcon from './components/CartIcon/CartIcon';
+import { IMGS_URL } from './config';
 
 const imageExtensions = ['png', 'jpg', 'jpeg', 'gif'];
 
@@ -14,7 +15,7 @@ function App() {
 
   const loadImage = (imageName, extIndex = 0) => {
     const extension = imageExtensions[extIndex];
-    const imagePath = `http://localhost:8000/public/images/${imageName}.${extension}`;
+    const imagePath = `${IMGS_URL}${imageName}.${extension}`;  // Use IMGS_URL
 
     setLogoUrl(imagePath);
 
@@ -24,7 +25,7 @@ function App() {
       if (extIndex < imageExtensions.length - 1) {
         loadImage(imageName, extIndex + 1);
       } else {
-        setLogoUrl('http://localhost:8000/public/images/default-logo.png');
+        setLogoUrl(`${IMGS_URL}default-logo.png`);  // Use IMGS_URL
       }
     };
     img.src = imagePath;
