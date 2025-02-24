@@ -32,6 +32,7 @@ function App() {
   };
 
   useEffect(() => {
+    console.log('useEffect in app.js');
     loadImage('logo');
   }, []);
 
